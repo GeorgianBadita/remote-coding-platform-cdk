@@ -1,7 +1,8 @@
-#!/usr/bin/env node
-import "source-map-support/register";
-import * as cdk from "@aws-cdk/core";
+import { App } from "@aws-cdk/core";
 import { RemoteCodingPlatformStack } from "../lib/stacks/remote-coding-platform-stack";
 
-const app = new cdk.App();
-new RemoteCodingPlatformStack(app, "RemoteCodingPlatformStack");
+const app = new App();
+
+new RemoteCodingPlatformStack(app, "RemoteCodingPlatformStack", {
+  stackName: "RemoteCodingPlatformStack",
+});

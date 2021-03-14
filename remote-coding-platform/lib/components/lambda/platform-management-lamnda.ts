@@ -28,7 +28,7 @@ export class PlatformManagerLambda extends CPLambda {
       timeout: Duration.seconds(30),
       region: props.region,
       code: Code.fromAsset("../../remote-coding-platform-manager-service"),
-      handler: "functions.platform-manager-handler",
+      handler: "functions.platform-manager-handler.handler",
       functionName: FUNCTION_NAME,
       layers: [createDependencyLayer(FUNCTION_NAME, stack)],
     });

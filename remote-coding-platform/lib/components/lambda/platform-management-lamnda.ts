@@ -27,7 +27,9 @@ export class PlatformManagerLambda extends CPLambda {
       memorySize: 128,
       timeout: Duration.seconds(30),
       region: props.region,
-      code: Code.fromAsset("../../remote-coding-platform-manager-service"),
+      code: Code.fromAsset(
+        "../../remote-coding-platform-manager-service/remote-coding-platform-manager-service"
+      ),
       handler: "functions.platform-manager-handler.handler",
       functionName: FUNCTION_NAME,
       layers: [createDependencyLayer(FUNCTION_NAME, stack)],
@@ -39,8 +41,8 @@ const createDependencyLayer = (
   functionName: string,
   stack: Construct
 ): ILayerVersion => {
-  const requirements_file = `../../remote-coding-platform-manager-service/requirements.txt`;
-  const output_dir = `../../remote-coding-platform-manager-service/.build/${FUNCTION_NAME}`;
+  const requirements_file = `../../remote-coding-platform-manager-service/remote-coding-platform-manager-service/requirements.txt`;
+  const output_dir = `../../remote-coding-platform-manager-service/build/${FUNCTION_NAME}`;
 
   exec(`pip3 install -r ${requirements_file} -t ${output_dir}/python`);
 

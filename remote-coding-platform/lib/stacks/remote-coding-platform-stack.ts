@@ -1,4 +1,11 @@
-import { SecurityGroup, Vpc } from "@aws-cdk/aws-ec2";
+import { LambdaIntegration, RestApi } from "@aws-cdk/aws-apigateway";
+import {
+  GatewayVpcEndpoint,
+  GatewayVpcEndpointAwsService,
+  SecurityGroup,
+  SubnetType,
+  Vpc,
+} from "@aws-cdk/aws-ec2";
 import { Role } from "@aws-cdk/aws-iam";
 import { Bucket } from "@aws-cdk/aws-s3";
 import { Stack, Construct, StackProps } from "@aws-cdk/core";
@@ -31,7 +38,7 @@ export class RemoteCodingPlatformStack extends Stack {
     //Bucket for saving problems data (test_cases code, official_solution_code)
     this.codeTestBucket = new CodeTestBucket(this, "CodeTestBucketStorage", {
       versioned: true,
-      bucketName: "code-test-bucket-8efc083c-ca7f-43fc-b059-8035ad2b6bbf",
+      bucketName: "code-test-bucket-8efc083c-ca7f-43fc-b059-8035ad2b6bbi",
     });
 
     //Questions lambda
@@ -66,5 +73,37 @@ export class RemoteCodingPlatformStack extends Stack {
     conding_platform_table.grantReadWriteData(platform_manager_lambda);
 
     questions_table.grantReadWriteData(questions_lambda);
+
+    const gatewayVpcEndpoint = new GatewayVpcEndpoint(
+      this,
+      `DynamoDBVPCGatewayEndpoint-${props.region}`,
+      {
+        vpc: props.vpc,
+        service: GatewayVpcEndpointAwsService.DYNAMODB,
+        subnets: [
+          {
+            subnetType: SubnetType.ISOLATED,
+          },
+        ],
+      }
+    );
+
+    const api = new RestApi(this, `CodingPlatformApi-${props.region}`, {
+      restApiName: `CodingPlatformApi-${props.region}`,
+      description: "API for Coding Platform",
+    });
+    api.root.addMethod("ANY");
+
+    const resource = api.root.addResource("v1");
+
+    const questions = resource.addResource("questions");
+
+    const getQuestionsIngegration = new LambdaIntegration(questions_lambda, {
+      requestTemplates: {
+        "application/json": '{"statusCode": 200}',
+      },
+    });
+
+    questions.addMethod("GET", getQuestionsIngegration);
   }
 }

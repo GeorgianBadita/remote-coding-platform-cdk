@@ -34,7 +34,7 @@ export class PlatformQuestionsLambda extends CPLambda {
       code: Code.fromAsset(
         "../../remote-coding-platform-manager-service/remote-coding-platform-manager-service"
       ),
-      handler: "functions.questions-manager-handler.handler",
+      handler: "functions.questions_manager_handler.handler",
       layers: [createDependencyLayer(FUNCTION_NAME, stack)],
       functionName: FUNCTION_NAME,
     });

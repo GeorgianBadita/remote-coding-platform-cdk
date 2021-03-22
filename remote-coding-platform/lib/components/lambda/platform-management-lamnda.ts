@@ -30,7 +30,7 @@ export class PlatformManagerLambda extends CPLambda {
       code: Code.fromAsset(
         "../../remote-coding-platform-manager-service/remote-coding-platform-manager-service"
       ),
-      handler: "functions.platform-manager-handler.handler",
+      handler: "functions.platform_manager_handler.handler",
       functionName: FUNCTION_NAME,
       layers: [createDependencyLayer(FUNCTION_NAME, stack)],
     });

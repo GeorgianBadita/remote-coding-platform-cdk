@@ -11,6 +11,6 @@ export class QuestionsTable extends CodingPlatformTable {
       sortKey: "question_name",
     });
 
-    addInitialData(this, this, initialData);
+    //addInitialData(this, this, initialData);
   }
 }

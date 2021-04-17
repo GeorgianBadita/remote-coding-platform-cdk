@@ -11,7 +11,7 @@ import { Bucket } from "@aws-cdk/aws-s3";
 import { Stack, Construct, StackProps } from "@aws-cdk/core";
 import { CodingPlatformContentTable } from "../components/dynamodb/coding-platform-content-table";
 import { QuestionsTable } from "../components/dynamodb/questions-table";
-import { PlatformManagerLambda } from "../components/lambda/platform-management-lamnda";
+import { PlatformManagerLambda } from "../components/lambda/platform-management-lambda";
 import { PlatformQuestionsLambda } from "../components/lambda/platform-questions-lambda";
 import { CodeTestBucket } from "../components/s3/CodeTestBucket";
 import { Region } from "../consts/regions";
